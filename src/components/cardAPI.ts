@@ -22,6 +22,7 @@ export class CardAPI extends Api implements ICardAPI {
 		);
 	}
 }
+
 // api.get('/product').then((res: ApiListResponse<ICardProps>) => {
 // 	res.items.forEach((item) => {
 // 		const card = new Card(root, { ...item, image: CDN_URL + item.image });
