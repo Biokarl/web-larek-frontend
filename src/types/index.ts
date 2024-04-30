@@ -19,4 +19,12 @@ export interface IOrderForm {
 
 export interface IOrder extends IOrderForm {
 	items: string[];
+	total: number;
+	payment: 'cash' | 'card' | null;
 }
+
+export interface IOrderResult {
+	id: string;
+}
+
+export type FormErrors = Partial<Record<keyof IOrder, string>>;

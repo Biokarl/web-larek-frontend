@@ -10,7 +10,7 @@ interface IBasketView {
 export class Basket extends Component<IBasketView> {
 	protected _list: HTMLElement;
 	protected _price: HTMLElement;
-	protected _button: HTMLElement;
+	protected _button: HTMLButtonElement;
 
 	constructor(container: HTMLElement, protected events: EventEmitter) {
 		super(container);
@@ -22,7 +22,6 @@ export class Basket extends Component<IBasketView> {
 		if (this._button) {
 			this._button.addEventListener('click', () => {
 				events.emit('order:open');
-				console.log(1);
 			});
 		}
 
@@ -43,5 +42,9 @@ export class Basket extends Component<IBasketView> {
 
 	set price(total: number) {
 		this.setText(this._price, `${total} синапсов`);
+	}
+
+	set disabled(disabled: boolean) {
+		this.setDisabled(this._button, disabled);
 	}
 }

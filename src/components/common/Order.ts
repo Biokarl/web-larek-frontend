@@ -3,18 +3,37 @@ import { IEvents } from '../base/events';
 import { Form } from './Form';
 
 export class Order extends Form<IOrderForm> {
+	protected _card: HTMLButtonElement;
+	protected _cash: HTMLButtonElement;
+
 	constructor(container: HTMLFormElement, events: IEvents) {
 		super(container, events);
-	}
 
-	set phone(value: string) {
-		(this.container.elements.namedItem('phone') as HTMLInputElement).value =
-			value;
-	}
+		this._card = container.querySelector('[name="card"]');
+		this._cash = container.querySelector('[name="cash"]');
 
-	set email(value: string) {
-		(this.container.elements.namedItem('email') as HTMLInputElement).value =
-			value;
+		if (this._card) {
+			this._card.addEventListener('click', () => {
+				if (!this._card.classList.contains('button_alt-active')) {
+					this._card.classList.add('button_alt-active');
+				}
+				if (this._cash.classList.contains('button_alt-active')) {
+					this._cash.classList.remove('button_alt-active');
+				}
+				events.emit('payment:method', { value: 'card' });
+			});
+		}
+		if (this._cash) {
+			this._cash.addEventListener('click', () => {
+				if (this._card.classList.contains('button_alt-active')) {
+					this._card.classList.remove('button_alt-active');
+				}
+				if (!this._cash.classList.contains('button_alt-active')) {
+					this._cash.classList.add('button_alt-active');
+				}
+				events.emit('payment:method', { value: 'cash' });
+			});
+		}
 	}
 
 	set address(value: string) {

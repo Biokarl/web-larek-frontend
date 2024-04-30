@@ -1,5 +1,5 @@
 import { ensureElement } from '../../utils/utils';
-import { Card, ICardActions } from './cardView';
+import { Card, ICardActions } from './CardView';
 
 export class BasketItem extends Card {
 	protected _title: HTMLElement;
