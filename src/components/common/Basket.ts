@@ -4,15 +4,13 @@ import { EventEmitter } from '../base/events';
 
 interface IBasketView {
 	items: HTMLElement[];
-	total: number;
-	selected: string[];
+	price: number;
 }
 
 export class Basket extends Component<IBasketView> {
 	protected _list: HTMLElement;
 	protected _price: HTMLElement;
 	protected _button: HTMLElement;
-	protected _total: HTMLElement;
 
 	constructor(container: HTMLElement, protected events: EventEmitter) {
 		super(container);
@@ -24,6 +22,7 @@ export class Basket extends Component<IBasketView> {
 		if (this._button) {
 			this._button.addEventListener('click', () => {
 				events.emit('order:open');
+				console.log(1);
 			});
 		}
 
@@ -42,7 +41,7 @@ export class Basket extends Component<IBasketView> {
 		}
 	}
 
-	set total(total: number) {
-		this.setText(this._total, total);
+	set price(total: number) {
+		this.setText(this._price, `${total} синапсов`);
 	}
 }

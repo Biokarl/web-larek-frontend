@@ -14,6 +14,7 @@ export interface IAppState {
 export interface IOrderForm {
 	email: string;
 	phone: string;
+	address: string;
 }
 
 export interface IOrder extends IOrderForm {

@@ -21,4 +21,21 @@ export class CatalogCard extends Card {
 		this._image = ensureElement<HTMLImageElement>(`.card__image`, container);
 		this._price = ensureElement<HTMLElement>(`.card__price`, container);
 	}
+
+	set image(value: string) {
+		this.setImage(this._image, value, this.title);
+	}
+
+	set category(value: string) {
+		const statuses: { [key: string]: string } = {
+			'софт-скил': 'soft',
+			дополнительное: 'additional',
+			кнопка: 'button',
+			другое: 'other',
+			'хард-скил': 'hard',
+		};
+		this.setText(this._category, value);
+
+		this._category.className = `card__category card__category_${statuses[value]}`;
+	}
 }

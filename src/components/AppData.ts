@@ -13,10 +13,6 @@ export class CardItem extends Model<ICard> {
 	title: string;
 	category: string;
 	price: number;
-
-	get nextBid(): number {
-		return Math.floor(this.price * 1.1);
-	}
 }
 
 export class AppState extends Model<IAppState> {
@@ -25,6 +21,7 @@ export class AppState extends Model<IAppState> {
 	order: IOrder = {
 		email: '',
 		phone: '',
+		address: '',
 		items: [],
 	};
 

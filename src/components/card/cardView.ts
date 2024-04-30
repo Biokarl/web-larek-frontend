@@ -22,17 +22,8 @@ export class Card extends Component<ICard> {
 		super(container);
 
 		this._title = ensureElement<HTMLElement>(`.${blockName}__title`, container);
-		// this._image = ensureElement<HTMLImageElement>(
-		// 	`.${blockName}__image`,
-		// 	container
-		// );
 		this._button = container.querySelector(`.${blockName}__button`);
-		// this._description = container.querySelector(`.${blockName}__description`);
 		this._price = ensureElement<HTMLElement>(`.${blockName}__price`, container);
-		// this._category = ensureElement<HTMLElement>(
-		// 	`.${blockName}__category`,
-		// 	container
-		// );
 
 		if (actions?.onClick) {
 			if (this._button) {
@@ -66,27 +57,6 @@ export class Card extends Component<ICard> {
 
 	get price(): string {
 		return this._price.textContent || '';
-	}
-
-	// set category(value: string) {
-	// 	const statuses: { [key: string]: string } = {
-	// 		'софт-скил': 'soft',
-	// 		дополнительное: 'additional',
-	// 		кнопка: 'button',
-	// 		другое: 'other',
-	// 		'хард-скил': 'hard',
-	// 	};
-	// 	this.setText(this._category, value);
-
-	// 	this._category.className = `card__category card__category_${statuses[value]}`;
-	// }
-
-	// get category(): string {
-	// 	return this._category.textContent || '';
-	// }
-
-	set image(value: string) {
-		this.setImage(this._image, value, this.title);
 	}
 
 	set description(value: string) {
