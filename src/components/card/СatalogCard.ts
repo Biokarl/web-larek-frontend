@@ -1,5 +1,5 @@
 import { ensureElement } from '../../utils/utils';
-import { Card, ICardActions } from './CardView';
+import { Card, ICardActions } from './Card';
 
 export interface CatalogStatus {
 	_category: HTMLElement;
