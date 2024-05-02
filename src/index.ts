@@ -1,9 +1,9 @@
 import { AppState, CardItem, GalleryChangeEvent } from './components/AppData';
 import { EventEmitter } from './components/base/events';
 import { BasketItem } from './components/card/BasketItem';
-import { CardApi } from './components/card/CardApi';
+import { CardApi } from './components/card/cardApi';
 import { CatalogCard } from './components/card/СatalogCard';
-import { PreviewCard } from './components/card/PreviewCard';
+import { PreviewCard } from './components/card/previewCard';
 import { Basket } from './components/common/Basket';
 import { Modal } from './components/common/Modal';
 import { Order } from './components/common/Order';
@@ -14,8 +14,6 @@ import { cloneTemplate, createElement, ensureElement } from './utils/utils';
 import { IOrderForm } from './types';
 import { Contacts } from './components/common/Contacts';
 import { Success } from './components/common/Success';
-
-// Чтобы мониторить все события, для отладки
 
 // Все шаблоны
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
@@ -59,7 +57,9 @@ events.on('preview:changed', (item: CardItem) => {
 		const card = new PreviewCard(cloneTemplate(cardPreviewTemplate), {
 			onClick: () => events.emit('basket:add', item),
 		});
-
+		if (item.price === null) {
+			card.disabled = true;
+		}
 		modal.render({
 			content: card.render({
 				title: item.title,

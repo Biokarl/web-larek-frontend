@@ -64,7 +64,7 @@ export class AppState extends Model<IAppState> {
 		this.order[field] = value;
 
 		if (this.validateOrder()) {
-			// this.events.emit('order:ready', this.order);
+			this.events.emit('order:ready', this.order);
 		}
 	}
 
