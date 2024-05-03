@@ -1,9 +1,9 @@
 import { AppState, CardItem, GalleryChangeEvent } from './components/AppData';
-import { EventEmitter } from './components/base/events';
+import { EventEmitter } from './components/base/Events';
 import { BasketItem } from './components/card/BasketItem';
-import { CardApi } from './components/card/cardApi';
+import { CardApi } from './components/card/CardApi';
 import { CatalogCard } from './components/card/СatalogCard';
-import { PreviewCard } from './components/card/previewCard';
+import { PreviewCard } from './components/card/PreviewCard';
 import { Basket } from './components/common/Basket';
 import { Modal } from './components/common/Modal';
 import { Order } from './components/common/Order';
@@ -58,7 +58,7 @@ events.on('preview:changed', (item: CardItem) => {
 			onClick: () => events.emit('basket:add', item),
 		});
 		if (item.price === null) {
-			card.disabled = true;
+			card.toggleButton(true);
 		}
 		modal.render({
 			content: card.render({
@@ -104,6 +104,7 @@ events.on('formErrorsContact:change', (errors: Partial<IOrderForm>) => {
 });
 
 events.on('order:submit', () => {
+	modal.close();
 	modal.render({
 		content: contacts.render({
 			phone: '',
@@ -126,7 +127,7 @@ events.on('contacts:submit', () => {
 					events.emit('basket:changed');
 				},
 			});
-
+			modal.close();
 			modal.render({
 				content: success.render({ total: appData.order.total }),
 			});
@@ -158,6 +159,7 @@ events.on('payment:method', ({ value }: { value: 'cash' | 'card' }) => {
 });
 
 events.on('order:open', () => {
+	modal.close();
 	modal.render({
 		content: order.render({
 			valid: false,
@@ -180,9 +182,9 @@ events.on('basket:add', (item: CardItem) => {
 
 events.on('basket:changed', () => {
 	if (appData.order.total) {
-		basket.disabled = false;
+		basket.toggleButton(true);
 	} else {
-		basket.disabled = true;
+		basket.toggleButton(false);
 	}
 	page.counter = appData.order.items.length;
 	basket.items = appData.getBasketCard().map((item) => {
@@ -197,10 +199,11 @@ events.on('basket:changed', () => {
 
 events.on('basket:open', () => {
 	if (appData.order.total) {
-		basket.disabled = false;
+		basket.toggleButton(false);
 	} else {
-		basket.disabled = true;
+		basket.toggleButton(true);
 	}
+
 	modal.render({
 		content: createElement<HTMLElement>('div', {}, [basket.render()]),
 	});

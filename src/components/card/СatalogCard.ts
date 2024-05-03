@@ -17,9 +17,7 @@ export class CatalogCard extends Card {
 	constructor(container: HTMLElement, actions?: ICardActions) {
 		super('card', container, actions);
 		this._category = ensureElement<HTMLElement>(`.card__category`, container);
-		this._title = ensureElement<HTMLElement>(`.card__title`, container);
 		this._image = ensureElement<HTMLImageElement>(`.card__image`, container);
-		this._price = ensureElement<HTMLElement>(`.card__price`, container);
 	}
 
 	set image(value: string) {

@@ -8,10 +8,8 @@ export class PreviewCard extends Card {
 	protected _price: HTMLElement;
 	constructor(container: HTMLElement, actions?: ICardActions) {
 		super('card', container, actions);
-		this._title = ensureElement<HTMLElement>(`.card__title`, container);
 		this._image = ensureElement<HTMLImageElement>(`.card__image`, container);
 		this._category = ensureElement<HTMLElement>(`.card__category`, container);
-		this._price = ensureElement<HTMLElement>(`.card__price`, container);
 	}
 
 	set category(value: string) {

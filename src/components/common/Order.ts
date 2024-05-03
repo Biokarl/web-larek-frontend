@@ -1,5 +1,5 @@
 import { IOrderForm } from '../../types';
-import { IEvents } from '../base/events';
+import { IEvents } from '../base/Events';
 import { Form } from './Form';
 
 export class Order extends Form<IOrderForm> {
@@ -15,7 +15,7 @@ export class Order extends Form<IOrderForm> {
 		if (this._card) {
 			this._card.addEventListener('click', () => {
 				if (!this._card.classList.contains('button_alt-active')) {
-					this._card.classList.add('button_alt-active');
+					this.toggleClass(this._card, 'button_alt-active');
 				}
 				if (this._cash.classList.contains('button_alt-active')) {
 					this._cash.classList.remove('button_alt-active');

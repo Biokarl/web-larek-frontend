@@ -13,7 +13,7 @@
 - src/pages/index.html — HTML-файл главной страницы
 - src/types/index.ts — файл с типами
 - src/index.ts — точка входа приложения
-- src/styles/styles.scss — корневой файл стилей
+- src/scss/styles.scss — корневой файл стилей
 - src/utils/constants.ts — файл с константами
 - src/utils/utils.ts — файл с утилитами
 
@@ -102,11 +102,18 @@ export interface IOrderResult {
 export type FormErrors = Partial<Record<keyof IOrder, string>>;
 ```
 
+## Об архитектуре
+
+Взаимодействия внутри приложения происходят через события. Модели инициализируют события, слушатели событий в основном коде выполняют передачу данных компонентам отображения, а также вычислениями между этой передачей, и еще они меняют значения в моделях.
+
 ## Базовый код
 
 #### Класс Api
 
 Содержит в себе базовую логику отправки запросов. В конструктор передается базовый адрес сервера и опциональный объект с заголовками запросов.
+
+Конструктор принимает такие аргументы: 1. baseUrl: string - базовый URL 2. options: RequestInit - глобальные опции для всех запросов(опционально)
+
 Методы:
 
 - `get` - выполняет GET запрос на переданный в параметрах ендпоинт и возвращает промис с объектом, которым ответил сервер
@@ -136,7 +143,7 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Конструктор принимает такие аргументы:
 
-    1. container - является DOM-элементом
+    1. container: HTMLElement - элемент контейнера, в который будет помещен компонент
 
 Класс имеет такие методы:
 
@@ -177,9 +184,23 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Конструктор принимает такие аргументы:
 
-    1. blockName - для создания имени контейнера
-    2. container - контейнер
-    3. actions - действие(например клик)
+    1. blockName: string - для создания имени контейнера
+    2. container: HTMLElement - элемент контейнера, в который будет помещен компонент
+    3. actions?: ICardActions - действие(например клик)
+
+Класс имеет такие методы:
+
+     toggleButton(state: boolean) - отвечает за возможность использовать  кнопку
+
+Сеттеры и геттеры
+
+    set id(value: string) - изменение id
+    get id(): string - получение id
+    set title(value: string) - изменение текста в тайтле
+    get title(): string - получение текста в тайтле
+    set price(value: string) - изменение цены
+    get price(): string - получение цены
+    set description(value: string) - изменение описания товара
 
 #### Класс Basket
 
@@ -189,8 +210,17 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Конструктор принимает такие аргументы:
 
-    1. container - контейнер
-    2. events - событие, с которым нужно что-то сделать
+    1. container: HTMLElement - элемент контейнера, в который будет помещен компонент
+    2. events: EventEmitter - событие, с которым нужно что-то сделать
+
+Класс имеет такие методы:
+
+     toggleButton(state: boolean) - отвечает за возможность использовать  кнопку
+
+Сеттеры и геттеры
+
+    set items(items: HTMLElement[]) - отображает контент в корзине
+    set price(total: number) - отображает цену товаров
 
 #### Класс BasketItem
 
@@ -200,8 +230,8 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Конструктор принимает такие аргументы:
 
-    1. container - контейнер
-    2. actions - действие(например клик)
+    1. container: HTMLElement - элемент контейнера, в который будет помещен компонент
+    2. actions?: ICardActions - действие(например клик)
 
 #### Класс CardApi
 
@@ -211,9 +241,9 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Конструктор принимает такие аргументы:
 
-    1. cdn - ссылка на массив данных
-    2. baseUrl - базавая ссылка
-    3. options - дополнительные настройки которые передаются в header запроса
+    1. cdn: string - ссылка на массив данных
+    2. baseUrl: string - базавая ссылка
+    3. options?: RequestInit - дополнительные настройки которые передаются в header запроса
 
 Класс имеет такие методы:
 
@@ -229,8 +259,14 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Конструктор принимает такие аргументы:
 
-    1. container - контейнер
-    2. actions - действие(например клик)
+    1. container: HTMLElement - элемент контейнера, в который будет помещен компонент
+    2. actions?: ICardActions - действие(например клик)
+
+Сеттеры и геттеры
+
+    set category(value: string) - изменение категории товара
+    get category(): string - получение категории товара в открытом модальном окне
+    set image(value: string) - изменение картинки товара в открытом модальном окне
 
 #### Класс CatalogCard
 
@@ -242,8 +278,13 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Конструктор принимает такие аргументы:
 
-    1. container - контейнер
-    2. actions - действие(например клик)
+    1. container: HTMLElement - элемент контейнера, в который будет помещен компонент
+    2. actions?: ICardActions - действие(например клик)
+
+Сеттеры и геттеры
+
+    set image(value: string) - изменение картинки товара при отображении страницы
+    set category(value: string) - изменение категории товара при отображении страницы
 
 #### Класс Form
 
@@ -255,13 +296,18 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Конструктор принимает такие аргументы:
 
-    1. container - контейнер
-    2. events - событие, с которым нужно что-то сделать
+    1. container: HTMLElement - элемент контейнера, в который будет помещен компонент
+    2. events: IEvents - событие, с которым нужно что-то сделать
 
 Класс имеет такие методы:
 
     1. onInputChange - изменение инпута, вызывающий events.emit с двумя параметрами. 1 - динамическая строка, состоящая из имени контейнера, названия поля. 2 - объект с данными
     2. render - возвращает элемент, представляющий содержимое формы
+
+Сеттеры и геттеры:
+
+    set valid(value: boolean) - проверка валидации кнопки
+    set errors(value: string) - отображение текста ошибки
 
 #### Класс Contacts
 
@@ -271,8 +317,13 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Конструктор принимает такие аргументы:
 
-    1. container - контейнер
+    1. container: HTMLElement - элемент контейнера, в который будет помещен компонент
     2. events - событие, с которым нужно что-то сделать
+
+Сеттеры и геттеры:
+
+    set phone(value: string) - изменение значения телефона
+    set email(value: string) - изменение значения email
 
 #### Класс Modal
 
@@ -282,14 +333,18 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Конструктор принимает такие аргументы:
 
-    1. container - контейнер
-    2. events - событие, с которым нужно что-то сделать
+    1. container: HTMLElement - элемент контейнера, в который будет помещен компонент
+    2. events: IEvents - событие, с которым нужно что-то сделать
 
 Класс имеет такие методы:
 
     1. open - открыть модальное окно
     2. close - закрыть модальное окно
     3. render - возвращает элемент, представляющий содержимое компонента
+
+Сеттеры и геттеры:
+
+    set content(value: HTMLElement) - изменение дочерних элементов
 
 #### Класс Order
 
@@ -299,8 +354,12 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Конструктор принимает такие аргументы:
 
-    1. container - контейнер
-    2. events - событие, с которым нужно что-то сделать
+    1. container: HTMLElement - элемент контейнера, в который будет помещен компонент
+    2. events: IEvents - событие, с которым нужно что-то сделать
+
+Сеттеры и геттеры:
+
+    set address(value: string) - изменение адреса
 
 #### Класс Success
 
@@ -308,5 +367,27 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Конструктор принимает такие аргументы:
 
-    1. container -контейнер
-    2. actions - действие(например клик)
+    1. container: HTMLElement - элемент контейнера, в который будет помещен компонент
+    2. actions: ISuccessActions - действие(например клик)
+
+Сеттеры и геттеры:
+
+    set total(value: string) - отображает потраченную валюту
+
+#### Список всех событий
+
+    - `card:select` - выбор карточки для отображения
+    - `items:changed` - отображение каталога карточек
+    - `preview:changed` - отображение превью карточки
+    - `basket:add` - добавление товара в корзину
+    - `formErrorsOrder:change` - событие, сообщающее о необходимости валидации формы адреса
+    - `formErrorsContact:change` - событие, сообщающее о необходимости валидации формы контактов
+    - `order:submit` - событие перехода на стадию заполнения формы  телефона и mail  пользователя
+    - `contacts:submit` - завершение покупки и переход на вывод финального окна
+    - `payment:method` - выбор способа оплаты
+    - `order:open` - открытие модального окна адреса
+    - `basket:removeItem` - удаление товара из корзины
+    - `basket:changed` - событие изменения товаров в корзине
+    - `basket:open` - открытие модального окна корзины
+    - `modal:open` - событие после открытия модального окна(разблокировка скролла экрана)
+    - `modal:close` - событие после закрытия модального окна(блокировка скролла экрана)

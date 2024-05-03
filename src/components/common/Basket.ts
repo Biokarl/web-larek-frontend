@@ -1,6 +1,6 @@
 import { Component } from '../base/Component';
 import { cloneTemplate, createElement, ensureElement } from '../../utils/utils';
-import { EventEmitter } from '../base/events';
+import { EventEmitter } from '../base/Events';
 
 interface IBasketView {
 	items: HTMLElement[];
@@ -44,7 +44,7 @@ export class Basket extends Component<IBasketView> {
 		this.setText(this._price, `${total} синапсов`);
 	}
 
-	set disabled(disabled: boolean) {
-		this.setDisabled(this._button, disabled);
+	toggleButton(state: boolean) {
+		this.setDisabled(this._button, state);
 	}
 }
