@@ -18,7 +18,7 @@ export class Order extends Form<IOrderForm> {
 					this.toggleClass(this._card, 'button_alt-active');
 				}
 				if (this._cash.classList.contains('button_alt-active')) {
-					this._cash.classList.remove('button_alt-active');
+					this.toggleClass(this._cash, 'button_alt-active');
 				}
 				events.emit('payment:method', { value: 'card' });
 			});
@@ -26,10 +26,10 @@ export class Order extends Form<IOrderForm> {
 		if (this._cash) {
 			this._cash.addEventListener('click', () => {
 				if (this._card.classList.contains('button_alt-active')) {
-					this._card.classList.remove('button_alt-active');
+					this.toggleClass(this._card, 'button_alt-active');
 				}
 				if (!this._cash.classList.contains('button_alt-active')) {
-					this._cash.classList.add('button_alt-active');
+					this.toggleClass(this._cash, 'button_alt-active');
 				}
 				events.emit('payment:method', { value: 'cash' });
 			});

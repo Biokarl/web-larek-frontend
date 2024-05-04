@@ -182,9 +182,9 @@ events.on('basket:add', (item: CardItem) => {
 
 events.on('basket:changed', () => {
 	if (appData.order.total) {
-		basket.toggleButton(true);
-	} else {
 		basket.toggleButton(false);
+	} else {
+		basket.toggleButton(true);
 	}
 	page.counter = appData.order.items.length;
 	basket.items = appData.getBasketCard().map((item) => {
